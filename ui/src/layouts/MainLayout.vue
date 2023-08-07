@@ -1,5 +1,10 @@
 <template>
-  <q-layout view="lHh LpR lFf">
+  <q-layout view="hHh lpR fFf">
+    <q-header bordered class="bg-dark text-white" height-hint="98">
+      <q-toolbar>
+        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
+      </q-toolbar>
+    </q-header>
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
       <q-scroll-area class="fit">
         <q-list padding class="menu-list">
