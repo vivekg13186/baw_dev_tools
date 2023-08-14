@@ -6,11 +6,11 @@ const routes = [
       { path: "", component: () => import("pages/IndexPage.vue") },
       {
         path: "editConnnection/:id",
-        component: () => import("pages/ConnectionEditor.vue"),
+        component: () => import("pages/ConnectionEditorPage.vue"),
       },
       {
         path: "viewApp/:id",
-        component: () => import("pages/ViewApps.vue"),
+        component: () => import("pages/ViewAppsPage.vue"),
       },
       {
         path: "viewSnapshot",
@@ -20,6 +20,22 @@ const routes = [
       {
         path: "instance",
         component: () => import("pages/InstanceDetails.vue"),
+      },
+      {
+        path: "testSummary",
+        component: () => import("pages/TestSummary.vue"),
+      },
+      {
+        path: "testScript",
+        component: () => import("pages/TestScript.vue"),
+      },
+      {
+        path: "testData",
+        component: () => import("pages/TestDataPage.vue"),
+      },
+      {
+        path: "testData/:name",
+        component: () => import("pages/EditTestDataPage.vue"),
       },
     ],
   },

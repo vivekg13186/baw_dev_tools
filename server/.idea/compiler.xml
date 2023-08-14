@@ -6,18 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="baw_dev_tools" />
+        <module name="baw_tools" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="baw_dev_tool_2023" target="9" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_STRING" value="--add-modules=java.xml.ws.annotation" />
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="baw_dev_tool_2023" options="" />
-      <module name="baw_dev_tools" options="" />
+      <module name="baw_tools" options="-parameters" />
     </option>
   </component>
 </project>

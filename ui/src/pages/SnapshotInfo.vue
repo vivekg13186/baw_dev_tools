@@ -1,70 +1,62 @@
 <template>
-  <qpage padding>
-    <q-expansion-item
-      expand-separator
-      label="Snaphshot Info"
-      hide-expand-icon
-      default-opened
-      header-class="bg-primary text-white"
-    >
-      <div class="q-pa-lg q-gutter-md">
-        <q-breadcrumbs>
-          <q-breadcrumbs-el label="Home" to="/" />
-          <q-breadcrumbs-el
-            :label="connection"
-            :to="'/viewApp/' + connection"
-          />
-          <q-breadcrumbs-el :label="appName + '(' + appSName + ')'" />
-          <q-breadcrumbs-el :label="snapName" />
-        </q-breadcrumbs>
+  <q-page>
+    <q-toolbar class="bg-primary text-white">
+      <q-btn flat round dense icon="arrow_back" @click="goBack()" />
+      <q-toolbar-title>Snapshot Info</q-toolbar-title>
+    </q-toolbar>
 
-        <q-tabs
-          v-model="tab"
-          dense
-          class="text-grey"
-          active-color="primary"
-          indicator-color="primary"
-          align="left"
-          narrow-indicator
-        >
-          <q-tab name="toolkits" label="Toolkits" />
-          <q-tab name="envs" label="Enviroment Variables" />
-          <q-tab name="teams" label="Teams" />
-          <q-tab name="epvs" label="EPV" />
-          <q-tab name="web_servers" label="Web Service" />
-          <q-tab name="rest_servers" label="REST Servers" />
-        </q-tabs>
+    <div class="q-pa-lg q-gutter-md">
+      <q-breadcrumbs>
+        <q-breadcrumbs-el :label="appName + '(' + appSName + ')'" />
+        <q-breadcrumbs-el :label="snapName" />
+      </q-breadcrumbs>
 
-        <q-separator />
-        <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="toolkits">
-            <div class="q-pa-md q-gutter-sm">
-              <q-tree :nodes="toolkits" node-key="id" />
-            </div>
-          </q-tab-panel>
+      <q-tabs
+        v-model="tab"
+        dense
+        class="text-grey"
+        active-color="primary"
+        indicator-color="primary"
+        align="left"
+        narrow-indicator
+      >
+        <q-tab name="toolkits" label="Toolkits" />
+        <q-tab name="envs" label="Enviroment Variables" />
+        <q-tab name="teams" label="Teams" />
+        <q-tab name="epvs" label="EPV" />
+        <q-tab name="web_servers" label="Web Service" />
+        <q-tab name="rest_servers" label="REST Servers" />
+      </q-tabs>
 
-          <q-tab-panel name="envs">
-            <div class="q-pa-md q-gutter-sm">
-              <q-table :rows="env_rows" :columns="env_columns"></q-table>
-            </div>
-          </q-tab-panel>
+      <q-separator />
+      <q-tab-panels v-model="tab" animated>
+        <q-tab-panel name="toolkits">
+          <div class="q-pa-md q-gutter-sm">
+            <q-tree :nodes="toolkits" node-key="id" />
+          </div>
+        </q-tab-panel>
 
-          <q-tab-panel name="teams">
-            <TeamView v-for="t in teams" :data="t" v-bind:key="t.name" />
-          </q-tab-panel>
-          <q-tab-panel name="epvs">
-            <EPVView v-for="e in epvs" :data="e" v-bind:key="e.id" />
-          </q-tab-panel>
-          <q-tab-panel name="web_servers">
-            <WebService :data="webService"></WebService>
-          </q-tab-panel>
-          <q-tab-panel name="rest_servers">
-            <WebService :data="webService"></WebService>
-          </q-tab-panel>
-        </q-tab-panels>
-      </div>
-    </q-expansion-item>
-  </qpage>
+        <q-tab-panel name="envs">
+          <div class="q-pa-md q-gutter-sm">
+            <q-table :rows="env_rows" :columns="env_columns"></q-table>
+          </div>
+        </q-tab-panel>
+
+        <q-tab-panel name="teams">
+          <TeamView v-for="t in teams" :data="t" v-bind:key="t.name" />
+        </q-tab-panel>
+        <q-tab-panel name="epvs">
+          <EPVView v-for="e in epvs" :data="e" v-bind:key="e.id" />
+        </q-tab-panel>
+        <q-tab-panel name="web_servers">
+          <WebService :data="webService"></WebService>
+        </q-tab-panel>
+        <q-tab-panel name="rest_servers">
+          <WebService :data="webService"></WebService>
+        </q-tab-panel>
+      </q-tab-panels>
+    </div>
+  </q-page>
 </template>
 
 <script>
@@ -74,7 +66,7 @@ import { useQuasar } from "quasar";
 import { api } from "src/boot/axios";
 import TeamView from "src/components/TeamView.vue";
 import EPVView from "src/components/EPVView.vue";
-import { containerAction } from "./baw_api";
+import { containerAction, getSnapshotDetails } from "./baw_api";
 
 const env_columns = [
   {
@@ -110,6 +102,7 @@ export default {
   setup() {
     const $q = useQuasar();
     const route = useRoute();
+    const router = useRouter();
     const connection = ref(route.query.con);
     const appName = ref(route.query.appName);
     const appSName = ref(route.query.appSName);
@@ -125,6 +118,9 @@ export default {
     const webService = ref();
     const restService = ref();
     var idx = 0;
+    function goBack() {
+      router.back();
+    }
     function normalize(node) {
       var res = {};
       res.id = idx++;
@@ -135,24 +131,19 @@ export default {
       return res;
     }
     function loadSnapshotDetails() {
-      api
-        .get(`api/getSnapshotDetails/${connection.value}`, {
-          params: { snapshotId: snapId.value },
-        })
-        .then((response) => {
-          console.log(response.data);
+      getSnapshotDetails(
+        connection.value,
+        snapId.value,
+        (data) => {
           idx = 0;
-          var d = response.data.data.projDeps;
+          var d = data.data.projDeps;
 
           d = d.map(normalize);
           console.log(d);
           toolkits.value.splice(0, toolkits.value.length, ...d);
-          console.log(toolkits.value);
-        })
-        .catch((e) => {
-          console.log(e);
-          $q.notify("Error loading snapshot details");
-        });
+        },
+        (e) => {}
+      );
     }
     function loadEnvs() {
       containerAction(
@@ -227,6 +218,7 @@ export default {
       env_rows,
       teams,
       epvs,
+      goBack,
     };
   },
 };

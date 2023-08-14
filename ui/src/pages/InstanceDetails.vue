@@ -1,30 +1,23 @@
 <template>
-  <qpage padding>
-    <q-expansion-item
-      expand-separator
-      label="Search Details"
-      hide-expand-icon
-      default-opened
-      header-class="bg-primary text-white"
-    >
-      <div class="q-pa-md q-gutter-md">
-        <q-input filled v-model="instanceID" label="Instance ID" />
-        <q-input filled v-model="url" label="URL" />
-        <q-input filled v-model="username" label="Username" />
-        <q-input filled v-model="password" type="password" label="Password" />
-        <div>
-          <q-btn color="primary" icon="search" @click="search">Search</q-btn>
-        </div>
+  <q-page>
+    <q-toolbar class="bg-primary text-white">
+      <q-toolbar-title>Search Details</q-toolbar-title>
+    </q-toolbar>
+
+    <div class="q-pa-md q-gutter-md">
+      <q-input filled v-model="instanceID" label="Instance ID" />
+      <q-input filled v-model="url" label="URL" />
+      <q-input filled v-model="username" label="Username" />
+      <q-input filled v-model="password" type="password" label="Password" />
+      <div>
+        <q-btn color="primary" icon="search" @click="search">Search</q-btn>
       </div>
-    </q-expansion-item>
-    <q-expansion-item
-      v-if="instance"
-      expand-separator
-      label="Instance Details"
-      hide-expand-icon
-      default-opened
-      header-class="bg-primary text-white"
-    >
+    </div>
+
+    <q-toolbar v-if="instance" class="bg-primary text-white">
+      <q-toolbar-title>Instance Details</q-toolbar-title>
+    </q-toolbar>
+    <div v-if="instance">
       <div class="q-pa-md q-gutter-md">
         <q-list bordered separator>
           <q-item>
@@ -91,7 +84,7 @@
         <h6>Execution Tree</h6>
         <q-tree node-key="nodeId" :nodes="treeNode" label-key="name"></q-tree>
       </div>
-    </q-expansion-item>
+    </div>
     <q-dialog v-model="code_dialog_viz" full-width>
       <q-card>
         <q-card-section>
@@ -119,7 +112,7 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-  </qpage>
+  </q-page>
 </template>
 
 <script>
