@@ -133,12 +133,11 @@
   </q-page>
 </template>
 <script>
-import { api } from "src/boot/axios";
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useQuasar } from "quasar";
-import router from "src/router";
-import { containerAction, getApps, getToolkits } from "./baw_api";
+
+import { containerAction, getApps, getToolkits } from "../../api/baw_api";
 const columns = [
   {
     name: "appName",
@@ -369,3 +368,4 @@ export default {
   },
 };
 </script>
+../api/baw_api

@@ -19,16 +19,18 @@
                 flat
                 color="primary"
                 size="sm"
-                label="View Apps"
+                icon="visibility"
                 @click="openViewAppsPage(props.row.alias)"
-              ></q-btn>
+                ><q-tooltip> View apps and toolkit </q-tooltip></q-btn
+              >
               <q-btn
                 flat
                 color="red"
                 size="sm"
-                label="Delete Connection"
+                icon="delete"
                 @click="deleteConnection(props.row.id)"
-              ></q-btn>
+                ><q-tooltip> Delete connection </q-tooltip></q-btn
+              >
             </q-td>
           </template>
         </q-table>
@@ -38,10 +40,13 @@
 </template>
 <script>
 import { ref, onMounted } from "vue";
-import { api } from "../boot/axios";
+
 import { useRoute, useRouter } from "vue-router";
 import { useQuasar } from "quasar";
-import { get_all_connections, delete_connection } from "./connection_api";
+import {
+  get_all_connections,
+  delete_connection,
+} from "../../api/connection_api";
 const columns = [
   {
     name: "name",
@@ -109,3 +114,4 @@ export default {
   },
 };
 </script>
+../api/connection_api

@@ -13,7 +13,6 @@ export default {
   setup() {
     const code = ref("");
     function highLightCode() {
-      console.log("view", props.data, Prism.languages.groovy);
       code.value = Prism.highlight(
         props.data,
         Prism.languages.groovy,

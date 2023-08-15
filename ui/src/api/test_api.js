@@ -44,3 +44,37 @@ export function delete_testdata(name, callback, on_error) {
       on_error(e);
     });
 }
+
+export function get_all_test_cases(callback, on_error) {
+  api
+    .get("/api/testcase")
+    .then((res) => {
+      callback(res.data);
+    })
+    .catch((e) => {
+      LogError(e);
+      on_error(e);
+    });
+}
+
+export function delete_testcase(id, callback, on_error) {
+  api
+    .delete(`/api/testcase/${id}`)
+    .then((res) => {
+      callback();
+    })
+    .catch((e) => {
+      LogError(e);
+      on_error(e);
+    });
+}
+
+export function update_testcase(data, callback, on_error) {
+  api
+    .post("/api/testcase", data)
+    .then((res) => callback(res.data))
+    .catch((e) => {
+      LogError(e);
+      on_error(e);
+    });
+}

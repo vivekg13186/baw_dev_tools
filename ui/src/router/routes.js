@@ -3,39 +3,39 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/IndexPage.vue") },
+      { path: "", component: () => import("pages/connection/IndexPage.vue") },
       {
         path: "editConnnection/:id",
-        component: () => import("pages/ConnectionEditorPage.vue"),
+        component: () => import("pages/connection/ConnectionEditorPage.vue"),
       },
       {
         path: "viewApp/:id",
-        component: () => import("pages/ViewAppsPage.vue"),
+        component: () => import("pages/connection/ViewAppsPage.vue"),
       },
       {
         path: "viewSnapshot",
         name: "viewSnapshot",
-        component: () => import("pages/SnapshotInfo.vue"),
+        component: () => import("pages/connection/SnapshotInfo.vue"),
       },
       {
         path: "instance",
-        component: () => import("pages/InstanceDetails.vue"),
+        component: () => import("pages/instancedtl/InstanceDetails.vue"),
       },
       {
         path: "testSummary",
-        component: () => import("pages/TestSummary.vue"),
+        component: () => import("pages/testcase/TestSummary.vue"),
       },
       {
-        path: "testScript",
-        component: () => import("pages/TestScript.vue"),
+        path: "testCaseEditor/:id",
+        component: () => import("pages/testcase/TestCaseEditor.vue"),
       },
       {
         path: "testData",
-        component: () => import("pages/TestDataPage.vue"),
+        component: () => import("pages/testdata/TestDataPage.vue"),
       },
       {
         path: "testData/:name",
-        component: () => import("pages/EditTestDataPage.vue"),
+        component: () => import("pages/testdata/EditTestDataPage.vue"),
       },
     ],
   },

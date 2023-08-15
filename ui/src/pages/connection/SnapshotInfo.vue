@@ -63,10 +63,10 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useQuasar } from "quasar";
-import { api } from "src/boot/axios";
+
 import TeamView from "src/components/TeamView.vue";
 import EPVView from "src/components/EPVView.vue";
-import { containerAction, getSnapshotDetails } from "./baw_api";
+import { containerAction, getSnapshotDetails } from "../../api/baw_api";
 
 const env_columns = [
   {
@@ -223,3 +223,4 @@ export default {
   },
 };
 </script>
+../api/baw_api

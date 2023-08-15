@@ -22,7 +22,7 @@ import { json } from "@codemirror/lang-json";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { update_testdata, get_testdata_by_name } from "./test_api";
+import { update_testdata, get_testdata_by_name } from "../../api/test_api";
 export default {
   components: { Codemirror },
   setup() {

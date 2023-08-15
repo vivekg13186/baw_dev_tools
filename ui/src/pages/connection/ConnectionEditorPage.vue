@@ -49,11 +49,10 @@
   </q-page>
 </template>
 <script>
-import { api } from "src/boot/axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useQuasar } from "quasar";
-import { new_connection } from "./connection_api";
+import { new_connection } from "../../api/connection_api";
 export default {
   setup() {
     const $q = useQuasar();
@@ -89,3 +88,4 @@ export default {
   },
 };
 </script>
+../api/connection_api

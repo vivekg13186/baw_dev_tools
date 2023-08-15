@@ -88,7 +88,7 @@ export default {
     }
     function showTestSummary() {
       selectedItem.value = "test";
-      router.push("/serviceCall");
+      router.push("/testSummary");
     }
     return {
       mini,

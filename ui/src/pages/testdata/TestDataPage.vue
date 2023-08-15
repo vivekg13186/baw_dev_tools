@@ -29,7 +29,11 @@
 <script>
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { get_testdata, delete_testdata, update_testdata } from "./test_api";
+import {
+  get_testdata,
+  delete_testdata,
+  update_testdata,
+} from "../../api/test_api";
 const columns = [
   {
     name: "name",
@@ -101,3 +105,4 @@ export default {
   },
 };
 </script>
+../api/test_api

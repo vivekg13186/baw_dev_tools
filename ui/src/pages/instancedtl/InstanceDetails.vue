@@ -180,7 +180,7 @@ import { Codemirror } from "vue-codemirror";
 import { json } from "@codemirror/lang-json";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { ref, shallowRef } from "vue";
-import { findInstanceDetails } from "./baw_api";
+import { findInstanceDetails } from "../../api/baw_api";
 export default {
   components: { Codemirror },
   setup() {
@@ -240,3 +240,4 @@ export default {
   },
 };
 </script>
+../api/baw_api
