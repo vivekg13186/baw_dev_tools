@@ -1,0 +1,35 @@
+
+
+type TestCase{
+    id:ID!
+    name :String!
+    lastModified: String
+}
+
+type TestCell{
+    id:ID!
+    name:String!
+    data:String
+    lastModified:String
+    testCaseId : Int
+}
+
+type Query{
+    #Testing
+    allTestCases:[TestCase!]
+    getTestCase(id:Int):TestCase
+    getTestCells(testCaseId:Int):[TestCell!]
+    getTestCell(id:Int):TestCell
+}
+
+
+type Mutation{
+    #Testing
+     createTestCase(name : String!):TestCase!
+     updateTestCase(id:Int,name:String!):TestCase!
+     deleteTestCase(id:Int):Boolean
+     createTestCell(name:String!,testCaseId:Int!):TestCell!
+     updateTestCell(id:Int,name:String!,data:String):TestCell!
+     deleteTestCell(id:Int):Boolean
+}
+

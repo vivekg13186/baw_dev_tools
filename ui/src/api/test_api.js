@@ -78,3 +78,5 @@ export function update_testcase(data, callback, on_error) {
       on_error(e);
     });
 }
+
+export function get_test_case() {}

@@ -27,7 +27,7 @@ public class TestCaseController {
 
     @PostMapping("/api/testcase")
     TestCase newTestCase(@RequestBody TestCase newTestCase) {
-        newTestCase.setLastModified(System.currentTimeMillis());
+        newTestCase.setLastModified(String.valueOf(System.currentTimeMillis()));
         return repository.save(newTestCase);
     }
 

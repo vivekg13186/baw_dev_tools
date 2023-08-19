@@ -23,7 +23,7 @@ public class TestCellController {
     }
 
     @PostMapping("/api/{id}/cell")
-    TestCell newTestCase(@PathVariable Long id, @RequestBody TestCell newTestCase) {
+    TestCell newTestCase(@PathVariable int id, @RequestBody TestCell newTestCase) {
         newTestCase.setTestCaseId(id);
         return repository.save(newTestCase);
     }
@@ -36,7 +36,7 @@ public class TestCellController {
     @PutMapping("/api/cell/{id}")
     TestCell one(@PathVariable TestCell cell) {
         repository.save(cell);
-        return repository.getById(cell.getId());
+        return repository.getById((long) cell.getId());
     }
 
     @DeleteMapping("/api/cell/{id}")
