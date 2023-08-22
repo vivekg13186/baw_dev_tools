@@ -1,8 +1,8 @@
 package baw.tools.controllers;
 
 
-import baw.tools.entities.ServerConnection;
-import baw.tools.repositories.ServerConnectionRepo;
+import baw.tools.entities.Connection;
+import baw.tools.repositories.ConnectionRepo;
 import kong.unirest.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,11 +11,11 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/baw")
-public class BAWController {
+public class BAW_RESTController {
 
-    private final ServerConnectionRepo repository;
+    private final ConnectionRepo repository;
 
-    public BAWController(ServerConnectionRepo repository) {
+    public BAW_RESTController(ConnectionRepo repository) {
         this.repository = repository;
         Unirest.config().verifySsl(false);
         Unirest.config().interceptor(new Interceptor() {
@@ -47,26 +47,26 @@ public class BAWController {
 
     }
 
-    @GetMapping(value = "/{name}/getApps", produces = "application/json")
-    public String getApps(@PathVariable String name) {
-        ServerConnection connection = repository.findByAlias(name).get(0);
+    @GetMapping(value = "/{id}/getApps", produces = "application/json")
+    public String getApps(@PathVariable Long id) {
+        Connection connection = repository.findById(id).orElse(new Connection());
         String path = joinPath(connection.getHost(), "/rest/bpm/wle/v1/processApps");
         return Unirest.get(path).header("Accept", "application/json").basicAuth(connection.getUsername(), connection.getPassword()).asString().getBody();
 
     }
 
-    @GetMapping(value = "/{name}/getToolkits", produces = "application/json")
-    public String getToolkits(@PathVariable String name) {
-        ServerConnection connection = repository.findByAlias(name).get(0);
+    @GetMapping(value = "/{id}/getToolkits", produces = "application/json")
+    public String getToolkits(@PathVariable Long id) {
+        Connection connection = repository.findById(id).orElse(new Connection());
         String path = joinPath(connection.getHost(), "/rest/bpm/wle/v1/toolkit");
         String result = Unirest.get(path).header("Accept", "application/json").basicAuth(connection.getUsername(), connection.getPassword()).asString().getBody();
         return result;
 
     }
 
-    @GetMapping(value = "/{name}/getSnapshotDetails", produces = "application/json")
-    public String getSnapshotDetails(@PathVariable String name, @RequestParam String id) {
-        ServerConnection connection = repository.findByAlias(name).get(0);
+    @GetMapping(value = "/{id}/getSnapshotDetails", produces = "application/json")
+    public String getSnapshotDetails(@PathVariable Long cid, @RequestParam String id) {
+        Connection connection = repository.findById(cid).orElse(new Connection());
         String path = joinPath(connection.getHost(), "/rest/bpm/wle/v1/processAppSettings");
         return Unirest.get(path)
                 .queryString("snapshotId", id)
@@ -149,8 +149,8 @@ public class BAWController {
     }
 
     @GetMapping(value = "/containerAction", produces = "application/json")
-    public String containerActions(@RequestParam String name, @RequestParam String appId, @RequestParam  String snapshotId, @RequestParam  String action) throws Exception {
-        ServerConnection connection = repository.findByAlias(name).get(0);
+    public String containerActions(@RequestParam Long id, @RequestParam String appId, @RequestParam  String snapshotId, @RequestParam  String action) throws Exception {
+        Connection connection = repository.findById(id).orElse(new Connection());
         String token = getAccessToken(connection.getHost(), connection.getUsername(), connection.getPassword());
         String path = getPathForAction(appId, snapshotId, action);
         path = joinPath(connection.getHost(), path);
@@ -172,6 +172,7 @@ public class BAWController {
 
     }
 
+    /*
     @PostMapping(value = "/getInstanceDetails", produces = "application/json")
     public String getInstanceDetails(@RequestBody GetInstanceDetailsRequest request) {
 
@@ -184,5 +185,5 @@ public class BAWController {
                 .asString() .getBody();
 
     }
-
+*/
 }

@@ -41,14 +41,15 @@
           <q-item
             clickable
             v-ripple
-            :active="selectedItem == 'test'"
-            @click="showTestSummary"
+            :active="selectedItem == 'testscript'"
+            @click="showTestScript"
           >
             <q-item-section avatar>
-              <q-icon color="primary" name="checklist" />
+              <q-icon color="primary" name="code" />
             </q-item-section>
-            <q-item-section> Test </q-item-section>
+            <q-item-section> Test Scripts </q-item-section>
           </q-item>
+
           <q-item
             clickable
             v-ripple
@@ -88,7 +89,11 @@ export default {
     }
     function showTestSummary() {
       selectedItem.value = "test";
-      router.push("/testSummary");
+      router.push("/testCase");
+    }
+    function showTestScript() {
+      selectedItem.value = "testscript";
+      router.push("/testScript");
     }
     return {
       mini,
@@ -97,6 +102,7 @@ export default {
       showInstancePage,
       showConnectionPage,
       showTestSummary,
+      showTestScript,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },

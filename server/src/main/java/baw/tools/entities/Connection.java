@@ -2,8 +2,8 @@ package baw.tools.entities;
 
 import jakarta.persistence.*;
 
-@Entity(name = "server_connections")
-public class ServerConnection {
+@Entity(name = "connections")
+public class Connection {
 
 
     @Column(name = "HOST", nullable = false)
@@ -14,8 +14,8 @@ public class ServerConnection {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    @Column(name = "ALIAS", nullable = false, unique = true)
-    private String alias;
+    @Column(name = "NAME", nullable = false, unique = true)
+    private String name;
 
 
     @Id
@@ -46,12 +46,12 @@ public class ServerConnection {
         this.password = password;
     }
 
-    public String getAlias() {
-        return alias;
+    public String getName() {
+        return name;
     }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getId() {

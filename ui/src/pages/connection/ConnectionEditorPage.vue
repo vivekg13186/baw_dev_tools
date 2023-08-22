@@ -50,13 +50,16 @@
 </template>
 <script>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useQuasar } from "quasar";
-import { new_connection } from "../../api/connection_api";
+import { graphql } from "src/api/graphql";
 export default {
   setup() {
-    const $q = useQuasar();
     const router = useRouter();
+    const route = useRoute();
+    const id = ref(route.params.id);
+    const $q = useQuasar();
+
     const hostName = ref();
     const userName = ref();
     const password = ref();
@@ -65,15 +68,31 @@ export default {
       router.back();
     }
     function saveConnection() {
-      new_connection(
-        {
-          host: hostName.value,
-          alias: connnectionName.value,
-          username: userName.value,
-          password: password.value,
+      var ql = "";
+      var host = hostName.value;
+      var name = connnectionName.value;
+      var username = userName.value;
+      var password1 = password.value;
+      if (id.value == -1) {
+        ql = `mutation {
+            createConnection(name:"${name}",host:"${host}",username:"${username}",password:"${password1}"){
+                id
+             }
+          }`;
+      } else {
+        ql = `mutation {
+            updateConnection(id:${id.value},name:"${name}",host:"${host}",username:"${username}",password:"${password1}"){
+                id
+             }
+          }`;
+      }
+      graphql(
+        ql,
+        (d) => {
+          goHome();
         },
-        () => {
-          router.back();
+        (e) => {
+          $q.notify(e);
         }
       );
     }
@@ -88,4 +107,3 @@ export default {
   },
 };
 </script>
-../api/connection_api

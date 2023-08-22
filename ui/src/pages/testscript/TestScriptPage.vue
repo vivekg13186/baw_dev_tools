@@ -1,10 +1,9 @@
 <template>
   <q-page>
     <q-toolbar class="bg-primary text-white">
-      <q-toolbar-title>Test Case Summary</q-toolbar-title>
-      <q-btn flat icon="delete" @click="deleteSelectedTestCase"></q-btn>
-      <q-btn flat icon="add" @click="createTestCase"></q-btn>
-      <q-btn flat icon="play_arrow"></q-btn>
+      <q-toolbar-title>Test Scripts</q-toolbar-title>
+      <q-btn flat icon="delete" @click="deleteSelectedTestScript"></q-btn>
+      <q-btn flat icon="add" @click="createTestScript"></q-btn>
     </q-toolbar>
 
     <div class="q-pa-md q-gutter-sm">
@@ -22,13 +21,13 @@
               square
               flat
               icon="edit"
-              @click="edit_tc(props.row.id)"
+              @click="editTestScript(props.row.id)"
             ></q-btn>
             <q-btn
               square
               flat
               icon="delete"
-              @click="deleteTestCase(props.row.id)"
+              @click="deleteTestScript(props.row.id)"
             ></q-btn>
           </q-td> </template
       ></q-table>
@@ -42,7 +41,7 @@ import { useRouter } from "vue-router";
 import { graphql } from "src/api/graphql";
 const columns = [
   {
-    name: "testcase",
+    name: "testscript",
     label: "Name",
     align: "left",
     field: (row) => row.name,
@@ -66,12 +65,12 @@ export default {
     const router = useRouter();
     const rows = ref([]);
     const loading = ref(false);
-    function allTestCases() {
+    function allTestScript() {
       loading.value = true;
       graphql(
         `
           {
-            allTestCases {
+            allTestScript {
               name
               id
               lastModified
@@ -80,7 +79,7 @@ export default {
         `,
         (data) => {
           loading.value = false;
-          var tc = data.data.allTestCases
+          var tc = data.data.allTestScript
             .map((r) => {
               r.lastModified = Number(r.lastModified);
               return r;
@@ -98,64 +97,62 @@ export default {
       );
     }
 
-    function createTestCase() {
+    function createTestScript() {
       var name = window.prompt("Test Case Name");
       if (!name) return;
       graphql(
         `mutation {
-            createTestCase(name:"${name}"){
-                 name
+            createTestScript(name:"${name}"){
                 id
-                lastModified
-             }
+            }
           }`,
         (d) => {
-          allTestCases();
+          allTestScript();
         },
         (e) => {}
       );
     }
-    function deleteSelectedTestCase() {
+    function deleteSelectedTestScript() {
       if (selected.value.length == 0) return;
       var q = "mutation {\n";
       selected.value.map((i) => {
-        q += `del${i.id}:deleteTestCase(id:${i.id})\n`;
+        q += `del${i.id}:deleteTestScript(id:"${i.id}")\n`;
       });
       q += "}\n";
       console.log(q);
       graphql(
         q,
         (d) => {
-          allTestCases();
+          allTestScript();
         },
         (e) => {}
       );
     }
-    function deleteTestCase(id) {
+    function deleteTestScript(id) {
       graphql(
         `mutation {
-            deleteTestCase(id:${id})
+            deleteTestScript(id:"${id}")
           }`,
         (d) => {
-          allTestCases();
+          allTestScript();
         },
         (e) => {}
       );
     }
-    function edit_tc(id) {
-      router.push(`testCaseEditor/${id}`);
+    function editTestScript(id) {
+      router.push(`testScript/${id}`);
     }
     onMounted(() => {
-      allTestCases();
+      allTestScript();
     });
     return {
       rows,
       columns,
-      deleteTestCase,
+      deleteTestScript,
       selected,
-      createTestCase,
-      edit_tc,
-      deleteSelectedTestCase,
+      createTestScript,
+      editTestScript,
+      deleteSelectedTestScript,
       loading,
     };
   },

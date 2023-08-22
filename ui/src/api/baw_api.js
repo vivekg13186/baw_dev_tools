@@ -51,7 +51,7 @@ export function containerAction(
 ) {
   api
     .get(`/api/baw/containerAction`, {
-      params: { name: connection, appId, snapshotId, action },
+      params: { id: connection, appId, snapshotId, action },
     })
     .then((res) => callback(res.data))
     .catch((e) => {

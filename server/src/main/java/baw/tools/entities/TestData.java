@@ -1,17 +1,28 @@
 package baw.tools.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity(name = "test_data")
 public class TestData {
 
-    @Column(name = "name", nullable = false,unique = true)
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @Column(name = "name", nullable = false,unique = true)
     private String name;
     @Column(name="data",length = 5000)
     private String data;
+
+    @Column(name = "LAST_MODIFIED", nullable = false)
+    private String lastModified;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -27,5 +38,13 @@ public class TestData {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public String getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(String lastModified) {
+        this.lastModified = lastModified;
     }
 }

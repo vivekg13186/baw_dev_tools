@@ -2,33 +2,29 @@
   <q-page>
     <q-toolbar class="bg-primary text-white">
       <q-toolbar-title>Connections</q-toolbar-title>
-      <q-btn flat round dense icon="add" @click="openConnectionPage('new')" />
+      <q-btn flat icon="delete" @click="deleteSelectedConnections"></q-btn>
+      <q-btn flat icon="add" @click="createConnection"></q-btn>
     </q-toolbar>
 
     <div class="q-pa-md column q-gutter-sm">
       <div class="col">
         <q-table
-          title="Connections"
           :rows="rows"
           :columns="columns"
-          row-key="name"
+          row-key="id"
+          selection="multiple"
+          v-model:selected="selected"
+          :loading="loading"
         >
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
               <q-btn
                 flat
-                color="primary"
-                size="sm"
                 icon="visibility"
-                @click="openViewAppsPage(props.row.alias)"
+                @click="openViewAppsPage(props.row.id)"
                 ><q-tooltip> View apps and toolkit </q-tooltip></q-btn
               >
-              <q-btn
-                flat
-                color="red"
-                size="sm"
-                icon="delete"
-                @click="deleteConnection(props.row.id)"
+              <q-btn flat icon="delete" @click="deleteConnection(props.row.id)"
                 ><q-tooltip> Delete connection </q-tooltip></q-btn
               >
             </q-td>
@@ -40,20 +36,17 @@
 </template>
 <script>
 import { ref, onMounted } from "vue";
-
+import { graphql } from "src/api/graphql";
 import { useRoute, useRouter } from "vue-router";
 import { useQuasar } from "quasar";
-import {
-  get_all_connections,
-  delete_connection,
-} from "../../api/connection_api";
+
 const columns = [
   {
     name: "name",
     required: true,
-    label: "Connection",
+    label: "Name",
     align: "left",
-    field: (row) => row.alias,
+    field: (row) => row.name,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -81,28 +74,74 @@ const columns = [
 export default {
   setup() {
     const $q = useQuasar();
+    const selected = ref([]);
     const router = useRouter();
-    const rows = ref([{ name: "hello" }]);
+    const rows = ref([]);
+    const loading = ref(false);
+
     function openConnectionPage(id) {
       router.push(`/editConnnection/${id}`);
     }
-    function openViewAppsPage(alias) {
-      router.push(`/viewApp/${alias}`);
+    function openViewAppsPage(id) {
+      router.push(`/viewApp/${id}`);
     }
 
-    function deleteConnection(id) {
-      delete_connection(id, () => {
-        loadData();
-      });
+    function allConnections() {
+      loading.value = true;
+      graphql(
+        `
+          {
+            allConnections {
+              name
+              id
+              host
+              username
+            }
+          }
+        `,
+        (data) => {
+          loading.value = false;
+          var tc = data.data.allConnections;
+          rows.value = tc;
+        },
+        (e) => {
+          $q.notify(e);
+          loading.value = false;
+        }
+      );
     }
-    function loadData() {
-      get_all_connections((data) => {
-        rows.value.splice(0, rows.value.length, ...data);
+    function createConnection() {
+      router.push("/connection/-1");
+    }
+    function deleteConnection(id) {
+      graphql(
+        `mutation {
+            deleteConnection(id:${id})
+          }`,
+        (d) => {
+          allConnections();
+        },
+        (e) => {}
+      );
+    }
+    function deleteSelectedConnections() {
+      if (selected.value.length == 0) return;
+      var q = "mutation {\n";
+      selected.value.map((i) => {
+        q += `del${i.id}:deleteConnection(id:${i.id})\n`;
       });
+      q += "}\n";
+      console.log(q);
+      graphql(
+        q,
+        (d) => {
+          allConnections();
+        },
+        (e) => {}
+      );
     }
     onMounted(() => {
-      console.log("mounted");
-      loadData();
+      allConnections();
     });
     return {
       columns,
@@ -110,8 +149,11 @@ export default {
       openConnectionPage,
       deleteConnection,
       openViewAppsPage,
+      createConnection,
+      deleteSelectedConnections,
+      selected,
+      loading,
     };
   },
 };
 </script>
-../api/connection_api

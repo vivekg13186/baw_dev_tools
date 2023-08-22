@@ -5,7 +5,7 @@ const routes = [
     children: [
       { path: "", component: () => import("pages/connection/IndexPage.vue") },
       {
-        path: "editConnnection/:id",
+        path: "connection/:id",
         component: () => import("pages/connection/ConnectionEditorPage.vue"),
       },
       {
@@ -22,19 +22,20 @@ const routes = [
         component: () => import("pages/instancedtl/InstanceDetails.vue"),
       },
       {
-        path: "testSummary",
-        component: () => import("pages/testcase/TestSummary.vue"),
+        path: "testScript",
+        component: () => import("pages/testscript/TestScriptPage.vue"),
       },
       {
-        path: "testCaseEditor/:id",
-        component: () => import("pages/testcase/TestCaseEditor.vue"),
+        path: "testScript/:id",
+        component: () => import("pages/testscript/EditTestScriptPage.vue"),
       },
+
       {
         path: "testData",
         component: () => import("pages/testdata/TestDataPage.vue"),
       },
       {
-        path: "testData/:name",
+        path: "testData/:id",
         component: () => import("pages/testdata/EditTestDataPage.vue"),
       },
     ],

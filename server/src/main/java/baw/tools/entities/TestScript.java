@@ -2,25 +2,20 @@ package baw.tools.entities;
 
 import jakarta.persistence.*;
 
-@Entity(name = "test_cell")
-public class TestCell {
+@Entity(name = "test_script")
+public class TestScript {
 
     @Column(name = "NAME", nullable = false)
     private String name;
-    @Column(name = "DATA")
-    private String data;
+    @Column(name = "CODE",length = 100000)
+    private String code;
 
     @Column(name = "LAST_MODIFIED", nullable = false)
     private String lastModified;
 
 
-    @Column(name = "TESTCASE_ID", nullable = false)
-    private int testCaseId;
-
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private String id;
 
     public String getName() {
         return name;
@@ -30,12 +25,12 @@ public class TestCell {
         this.name = name;
     }
 
-    public String getData() {
-        return data;
+    public String getCode() {
+        return code;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getLastModified() {
@@ -46,19 +41,11 @@ public class TestCell {
         this.lastModified = lastModified;
     }
 
-    public int getTestCaseId() {
-        return testCaseId;
-    }
-
-    public void setTestCaseId(int testCaseId) {
-        this.testCaseId = testCaseId;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

@@ -1,35 +1,65 @@
-
-
-type TestCase{
-    id:ID!
-    name :String!
-    lastModified: String
-}
-
-type TestCell{
+type TestData{
     id:ID!
     name:String!
     data:String
     lastModified:String
-    testCaseId : Int
+}
+
+type TestScript{
+    id:ID!
+    name:String!
+    code:String
+    lastModified:String
+    }
+
+type Connection{
+    id:ID!
+    name:String!
+    host:String!
+    username:String!
+    password:String!
+}
+
+type TestResult{
+    id:ID!
+    scriptID:ID!
+    output:String
+    error:String
+    status:String
+    result:String
+    elapsedTime:String
 }
 
 type Query{
-    #Testing
-    allTestCases:[TestCase!]
-    getTestCase(id:Int):TestCase
-    getTestCells(testCaseId:Int):[TestCell!]
-    getTestCell(id:Int):TestCell
+
+    #Test Data
+    allTestData:[TestData!]
+    getTestData(id:Int):TestData
+    #Connection
+    allConnections:[Connection!]
+    getConnection:Connection
+
+    #Test Script
+    allTestScript:[TestScript!]
+    getTestScript(id:String):TestScript
+    evalTestScript(id:Int!,tid:Int!):TestResult
 }
 
 
 type Mutation{
-    #Testing
-     createTestCase(name : String!):TestCase!
-     updateTestCase(id:Int,name:String!):TestCase!
-     deleteTestCase(id:Int):Boolean
-     createTestCell(name:String!,testCaseId:Int!):TestCell!
-     updateTestCell(id:Int,name:String!,data:String):TestCell!
-     deleteTestCell(id:Int):Boolean
+    #Test Script
+    createTestScript(name:String!):TestScript
+    updateTestScript(id:String!,name:String!,code:String):TestScript
+    deleteTestScript(id:String!):Boolean
+    #Test Data
+    createTestData(name : String!):TestData
+    updateTestData(id:Int,name:String!,data:String):TestData
+    deleteTestData(id:Int):Boolean
+    #Connection
+    createConnection(name:String!,host:String!,username:String!,password:String!):Connection!
+    updateConnection(id:Int!,name:String!,host:String!,username:String!,password:String!):Connection!
+    deleteConnection(id:Int!):Boolean
+
+
 }
 

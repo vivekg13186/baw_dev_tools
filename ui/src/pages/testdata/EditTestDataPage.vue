@@ -3,11 +3,12 @@
     <q-toolbar class="bg-primary text-white">
       <q-btn flat icon="arrow_back" @click="goBack"></q-btn>
       <q-toolbar-title>{{ name }}</q-toolbar-title>
+
       <q-btn flat icon="save" @click="saveData"></q-btn>
     </q-toolbar>
     <codemirror
       v-model="code"
-      :style="{ height: '500px' }"
+      :style="{ height: '600px' }"
       :autofocus="true"
       :indent-with-tab="true"
       :tab-size="2"
@@ -22,7 +23,7 @@ import { json } from "@codemirror/lang-json";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { update_testdata, get_testdata_by_name } from "../../api/test_api";
+import { graphql } from "../../api/graphql";
 export default {
   components: { Codemirror },
   setup() {
@@ -32,6 +33,7 @@ export default {
     const router = useRouter();
     const name = ref(route.params.name);
     const code = ref();
+    const id = ref(route.params.id);
     function goBack() {
       router.back();
     }
@@ -39,17 +41,40 @@ export default {
       code.value = payload.view;
     }
     function loadData() {
-      get_testdata_by_name(name.value, (data) => {
-        code.value = data.data;
-      });
+      graphql(
+        `
+          {
+            getTestData(id: ${id.value}) {
+              id
+              lastModified
+              data
+              name
+            }
+          }
+        `,
+        (d) => {
+          var data = d.data.getTestData;
+          name.value = data.name;
+          code.value = data.data;
+        }
+      );
     }
     function saveData() {
-      update_testdata(
-        { name: name.value, data: code.value },
+      var data = JSON.stringify(code.value);
+      graphql(
+        `
+         mutation{
+  updateTestData(id:${id.value},name:"${name.value}",data:${data}){
+    id
+  }
+}
+        `,
         (d) => {
           $q.notify("Saved");
         },
-        (e) => {}
+        (e) => {
+          $q.notify("Error while saving");
+        }
       );
     }
 
@@ -67,3 +92,11 @@ export default {
   },
 };
 </script>
+<style>
+.cm-editor {
+  height: 100%;
+}
+.cm-scroller {
+  overflow: auto;
+}
+</style>
