@@ -2,8 +2,12 @@
   <q-page>
     <q-toolbar class="bg-primary text-white">
       <q-toolbar-title>Connections</q-toolbar-title>
-      <q-btn flat icon="delete" @click="deleteSelectedConnections"></q-btn>
-      <q-btn flat icon="add" @click="createConnection"></q-btn>
+      <q-btn flat round dense icon="delete" @click="deleteSelectedConnections"
+        ><q-tooltip> Delete connections </q-tooltip></q-btn
+      >
+      <q-btn flat round dense icon="add" @click="createConnection"
+        ><q-tooltip> New Connection </q-tooltip></q-btn
+      >
     </q-toolbar>
 
     <div class="q-pa-md column q-gutter-sm">
@@ -20,13 +24,20 @@
             <q-td :props="props">
               <q-btn
                 flat
-                icon="visibility"
-                @click="openViewAppsPage(props.row.id)"
-                ><q-tooltip> View apps and toolkit </q-tooltip></q-btn
-              >
-              <q-btn flat icon="delete" @click="deleteConnection(props.row.id)"
-                ><q-tooltip> Delete connection </q-tooltip></q-btn
-              >
+                size="sm"
+                color="primary"
+                label="View Apps"
+                no-caps
+                @click="openViewAppsPage(props.row.id, props.row.name)"
+              ></q-btn>
+              <q-btn
+                flat
+                size="sm"
+                color="red"
+                label="Delete"
+                no-caps
+                @click="deleteConnection(props.row.id)"
+              ></q-btn>
             </q-td>
           </template>
         </q-table>
@@ -82,8 +93,8 @@ export default {
     function openConnectionPage(id) {
       router.push(`/editConnnection/${id}`);
     }
-    function openViewAppsPage(id) {
-      router.push(`/viewApp/${id}`);
+    function openViewAppsPage(id, name) {
+      router.push(`/viewApp/${id}/${name}`);
     }
 
     function allConnections() {

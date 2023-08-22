@@ -1,0 +1,15 @@
+import{a as Q,Q as h}from"./QToolbar.e08e31dd.js";import{Q as _}from"./QTooltip.d76faa7c.js";import{_ as k,r as m,H as q,o as x,J as T,K as $,L as a,d as l,M as f,Q as u,aa as g}from"./index.7f3ba645.js";import{Q as V}from"./QTd.3f015520.js";import{Q as y}from"./QTable.2a36f1bc.js";import{Q as A}from"./QPage.d924841a.js";import{g as p}from"./graphql.6d0adb5b.js";import{u as N}from"./use-quasar.c7be712f.js";import"./QSelect.8ec0c3c9.js";import"./use-key-composition.450dd12f.js";import"./use-dark.4c8cd3f0.js";import"./use-timeout.2d83833b.js";import"./QList.d376259e.js";import"./axios.898b20c0.js";const P=[{name:"name",required:!0,label:"Name",align:"left",field:e=>e.name,format:e=>`${e}`,sortable:!0},{name:"host",required:!0,label:"Host",align:"left",field:e=>e.host,format:e=>`${e}`,sortable:!0},{name:"user",required:!0,label:"User",align:"left",field:e=>e.username,format:e=>`${e}`,sortable:!0},{name:"actions",align:"left",label:"Actions"}],B={setup(){const e=N(),r=m([]),d=q(),n=m([]),s=m(!1);function C(o){d.push(`/editConnnection/${o}`)}function i(o,t){d.push(`/viewApp/${o}/${t}`)}function c(){s.value=!0,p(`
+          {
+            allConnections {
+              name
+              id
+              host
+              username
+            }
+          }
+        `,o=>{s.value=!1;var t=o.data.allConnections;n.value=t},o=>{e.notify(o),s.value=!1})}function w(){d.push("/connection/-1")}function b(o){p(`mutation {
+            deleteConnection(id:${o})
+          }`,t=>{c()},t=>{})}function v(){if(r.value.length!=0){var o=`mutation {
+`;r.value.map(t=>{o+=`del${t.id}:deleteConnection(id:${t.id})
+`}),o+=`}
+`,console.log(o),p(o,t=>{c()},t=>{})}}return x(()=>{c()}),{columns:P,rows:n,openConnectionPage:C,deleteConnection:b,openViewAppsPage:i,createConnection:w,deleteSelectedConnections:v,selected:r,loading:s}}},z={class:"q-pa-md column q-gutter-sm"},D={class:"col"};function H(e,r,d,n,s,C){return T(),$(A,null,{default:a(()=>[l(h,{class:"bg-primary text-white"},{default:a(()=>[l(Q,null,{default:a(()=>[f("Connections")]),_:1}),l(u,{flat:"",round:"",dense:"",icon:"delete",onClick:n.deleteSelectedConnections},{default:a(()=>[l(_,null,{default:a(()=>[f(" Delete connections ")]),_:1})]),_:1},8,["onClick"]),l(u,{flat:"",round:"",dense:"",icon:"add",onClick:n.createConnection},{default:a(()=>[l(_,null,{default:a(()=>[f(" New Connection ")]),_:1})]),_:1},8,["onClick"])]),_:1}),g("div",z,[g("div",D,[l(y,{rows:n.rows,columns:n.columns,"row-key":"id",selection:"multiple",selected:n.selected,"onUpdate:selected":r[0]||(r[0]=i=>n.selected=i),loading:n.loading},{"body-cell-actions":a(i=>[l(V,{props:i},{default:a(()=>[l(u,{flat:"",size:"sm",color:"primary",label:"View Apps","no-caps":"",onClick:c=>n.openViewAppsPage(i.row.id,i.row.name)},null,8,["onClick"]),l(u,{flat:"",size:"sm",color:"red",label:"Delete","no-caps":"",onClick:c=>n.deleteConnection(i.row.id)},null,8,["onClick"])]),_:2},1032,["props"])]),_:1},8,["rows","columns","selected","loading"])])])]),_:1})}var X=k(B,[["render",H]]);export{X as default};

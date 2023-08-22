@@ -3,7 +3,7 @@
     <q-toolbar class="bg-primary text-white">
       <q-btn flat round dense icon="arrow_back" to="/" />
       <q-toolbar-title
-        >{{ connection }} -Applications and Toolkits</q-toolbar-title
+        >{{ connectionName }} -Applications and Toolkits</q-toolbar-title
       >
     </q-toolbar>
 
@@ -38,6 +38,7 @@
                   color="primary"
                   size="sm"
                   label="View Snapshots"
+                  no-caps
                   @click="showSnapshots(props.row)"
                 ></q-btn>
               </q-td>
@@ -71,6 +72,7 @@
                   color="primary"
                   size="sm"
                   label="View Snapshots"
+                  no-caps
                   @click="showSnapshots(props.row)"
                 ></q-btn>
               </q-td>
@@ -80,15 +82,39 @@
         <template v-slot:after>
           <div class="q-pa-sm q-gutter-lg">
             <div class="q-pa-sm q-gutter-md">
-              <q-btn color="primary" @click="makeDefault">Make Default</q-btn>
-              <q-btn color="primary" @click="doAction('activate')"
+              <q-btn flat size="sm" no-caps color="primary" @click="makeDefault"
+                >Make Default</q-btn
+              >
+              <q-btn
+                flat
+                size="sm"
+                color="primary"
+                no-caps
+                @click="doAction('activate')"
                 >Activate</q-btn
               >
-              <q-btn color="primary" @click="doAction('deactivate')"
+              <q-btn
+                flat
+                size="sm"
+                color="primary"
+                no-caps
+                @click="doAction('deactivate')"
                 >DeActivate</q-btn
               >
-              <q-btn color="primary" @click="doAction('stop')">Stop</q-btn>
-              <q-btn color="primary" @click="doAction('archive')"
+              <q-btn
+                no-caps
+                flat
+                size="sm"
+                color="primary"
+                @click="doAction('stop')"
+                >Stop</q-btn
+              >
+              <q-btn
+                flat
+                size="sm"
+                no-caps
+                color="primary"
+                @click="doAction('archive')"
                 >Archive</q-btn
               >
             </div>
@@ -122,6 +148,7 @@
                     color="primary"
                     size="sm"
                     label="View Config"
+                    no-caps
                     @click="openSnapshotPage(props.row)"
                   ></q-btn>
                 </q-td> </template
@@ -234,7 +261,7 @@ export default {
     const router = useRouter();
     const route = useRoute();
     const connection = ref(route.params.id);
-
+    const connectionName = ref(route.params.name);
     const apps = ref([]);
     const toolkits = ref([]);
     const loading_apps = ref(true);
@@ -340,7 +367,7 @@ export default {
     return {
       connection,
       loading_toolkits,
-
+      connectionName,
       columns,
       apps,
       loading_apps,

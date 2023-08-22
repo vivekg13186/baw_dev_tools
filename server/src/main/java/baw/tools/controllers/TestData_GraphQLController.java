@@ -28,7 +28,7 @@ public class TestData_GraphQLController {
     }
     @QueryMapping
     public  TestData getTestData(@Argument int id){
-        return repo.findById(Long.valueOf(id)).orElse(new TestData());
+        return repo.findById((long) id).orElse(new TestData());
     }
 
 
@@ -55,7 +55,7 @@ public class TestData_GraphQLController {
     @MutationMapping
     public Boolean deleteTestData(@Argument int id){
 
-        repo.deleteById(Long.valueOf(id));
+        repo.deleteById((long) id);
         return  true;
     }
 

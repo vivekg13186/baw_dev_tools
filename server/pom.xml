@@ -8,10 +8,10 @@
         <version>3.1.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>baw.tools</groupId>
-    <artifactId>baw_tools</artifactId>
+    <groupId>baw.dev.tools</groupId>
+    <artifactId>baw_dev_tools</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>baw_tools</name>
+    <name>baw_dev_tools</name>
     <description>BAW Developer Tools</description>
     <properties>
         <java.version>11</java.version>
@@ -31,11 +31,11 @@
         </dependency>
         <dependency>
 
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-graphql</artifactId>
-    </dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-graphql</artifactId>
+        </dependency>
 
-    <dependency>
+        <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
             <version>3.11.09</version>
@@ -78,24 +78,19 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.6.0</version>
+                <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>dist</id>
-                        <phase>package</phase>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <descriptors>
-                                <descriptor>src/assembly/bin.xml</descriptor>
-                            </descriptors>
+                            <outputDirectory>
+                                ${project.build.directory}/libs
+                            </outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -103,11 +98,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>baw.tools.Application</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>libs/</classpathPrefix>
+                            <mainClass>
+                                baw.tools.Application
+                            </mainClass>
                         </manifest>
                     </archive>
                 </configuration>

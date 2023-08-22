@@ -1,1 +1,1 @@
-java -cp "baw_dev_tools.jar;lib/*" app.Server
+java -cp "baw_dev_tools.jar;lib/*" baw.tools.Application

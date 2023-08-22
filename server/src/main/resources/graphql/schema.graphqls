@@ -42,7 +42,7 @@ type Query{
     #Test Script
     allTestScript:[TestScript!]
     getTestScript(id:String):TestScript
-    evalTestScript(id:Int!,tid:Int!):TestResult
+    evalTestScript(id:String!,tid:Int!):TestResult
 }
 
 

@@ -9,7 +9,7 @@ const routes = [
         component: () => import("pages/connection/ConnectionEditorPage.vue"),
       },
       {
-        path: "viewApp/:id",
+        path: "viewApp/:id/:name",
         component: () => import("pages/connection/ViewAppsPage.vue"),
       },
       {

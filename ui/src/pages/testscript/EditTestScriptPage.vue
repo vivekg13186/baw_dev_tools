@@ -123,8 +123,7 @@ export default {
     const code = ref();
     const editorView = shallowRef();
     const id = ref(route.params.id);
-    const testCaseId = ref("");
-    const sortOrder = ref(0);
+    const tab = ref("snippets");
     const testOutput = ref({});
     const runStatus = ref("no status");
     const codeChanged = ref(false);
@@ -150,6 +149,7 @@ export default {
       });
     }
     function evalTestScript() {
+      tab.value = "output";
       runStatus.value = "running";
       graphql(
         `{
@@ -224,7 +224,7 @@ export default {
       goBack,
       handleReady,
       extensions,
-      tab: ref("snippets"),
+      tab,
       evalTestScript,
       testOutput,
       runStatus,

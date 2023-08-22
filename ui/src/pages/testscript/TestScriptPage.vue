@@ -2,8 +2,12 @@
   <q-page>
     <q-toolbar class="bg-primary text-white">
       <q-toolbar-title>Test Scripts</q-toolbar-title>
-      <q-btn flat icon="delete" @click="deleteSelectedTestScript"></q-btn>
-      <q-btn flat icon="add" @click="createTestScript"></q-btn>
+      <q-btn flat round dense icon="delete" @click="deleteSelectedTestScript"
+        ><q-tooltip> Delete TestScripts </q-tooltip></q-btn
+      >
+      <q-btn flat round dense icon="add" @click="createTestScript"
+        ><q-tooltip> New TestScript </q-tooltip></q-btn
+      >
     </q-toolbar>
 
     <div class="q-pa-md q-gutter-sm">
@@ -20,13 +24,19 @@
             <q-btn
               square
               flat
-              icon="edit"
+              size="sm"
+              no-caps
+              label="Edit"
+              color="primary"
               @click="editTestScript(props.row.id)"
             ></q-btn>
             <q-btn
               square
               flat
-              icon="delete"
+              size="sm"
+              no-caps
+              label="Delete"
+              color="red"
               @click="deleteTestScript(props.row.id)"
             ></q-btn>
           </q-td> </template

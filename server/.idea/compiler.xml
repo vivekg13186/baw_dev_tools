@@ -6,12 +6,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="baw_tools" />
+        <module name="baw_dev_tools" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="baw_tools" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="baw_dev_tools" options="-parameters" />
       <module name="baw_tools" options="-parameters" />
     </option>
   </component>

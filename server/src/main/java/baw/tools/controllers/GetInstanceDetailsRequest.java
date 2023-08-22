@@ -1,6 +1,6 @@
 package baw.tools.controllers;
 
-public class GetInstanceDetails_RESTController {
+public class GetInstanceDetailsRequest {
 
     private String username;
     private String password;
@@ -8,7 +8,7 @@ public class GetInstanceDetails_RESTController {
 
     private String host;
 
-    public GetInstanceDetails_RESTController() {
+    public GetInstanceDetailsRequest() {
     }
 
     public String getHost() {

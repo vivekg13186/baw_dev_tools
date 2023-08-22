@@ -27,7 +27,7 @@ public class Connection_GraphQLController {
     }
     @QueryMapping
     public  Connection getConnection(@Argument int id){
-        return repo.findById(Long.valueOf(id)).orElse(new Connection());
+        return repo.findById((long) id).orElse(new Connection());
     }
 
     @MutationMapping
@@ -47,14 +47,14 @@ public class Connection_GraphQLController {
         tcc.setName(name);
         tcc.setUsername(username);
         tcc.setPassword(password);
-        tcc.setId(Long.valueOf(id));
+        tcc.setId((long) id);
         return repo.save(tcc);
     }
 
     @MutationMapping
     public Boolean deleteConnection(@Argument int id){
 
-        repo.deleteById(Long.valueOf(id));
+        repo.deleteById((long) id);
         return  true;
     }
 

@@ -6,7 +6,6 @@ import baw.tools.repositories.ConnectionRepo;
 import kong.unirest.*;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.net.URI;
 
 @RestController
@@ -59,12 +58,11 @@ public class BAW_RESTController {
     public String getToolkits(@PathVariable Long id) {
         Connection connection = repository.findById(id).orElse(new Connection());
         String path = joinPath(connection.getHost(), "/rest/bpm/wle/v1/toolkit");
-        String result = Unirest.get(path).header("Accept", "application/json").basicAuth(connection.getUsername(), connection.getPassword()).asString().getBody();
-        return result;
+        return Unirest.get(path).header("Accept", "application/json").basicAuth(connection.getUsername(), connection.getPassword()).asString().getBody();
 
     }
 
-    @GetMapping(value = "/{id}/getSnapshotDetails", produces = "application/json")
+    @GetMapping(value = "/{cid}/getSnapshotDetails", produces = "application/json")
     public String getSnapshotDetails(@PathVariable Long cid, @RequestParam String id) {
         Connection connection = repository.findById(cid).orElse(new Connection());
         String path = joinPath(connection.getHost(), "/rest/bpm/wle/v1/processAppSettings");
@@ -75,7 +73,7 @@ public class BAW_RESTController {
 
     }
 
-    private String getAccessToken(String host, String userName, String password) throws IOException {
+    private String getAccessToken(String host, String userName, String password) {
 
         String path = joinPath(host, "/ops/system/login");
 
@@ -149,7 +147,7 @@ public class BAW_RESTController {
     }
 
     @GetMapping(value = "/containerAction", produces = "application/json")
-    public String containerActions(@RequestParam Long id, @RequestParam String appId, @RequestParam  String snapshotId, @RequestParam  String action) throws Exception {
+    public String containerActions(@RequestParam Long id, @RequestParam String appId, @RequestParam  String snapshotId, @RequestParam  String action) {
         Connection connection = repository.findById(id).orElse(new Connection());
         String token = getAccessToken(connection.getHost(), connection.getUsername(), connection.getPassword());
         String path = getPathForAction(appId, snapshotId, action);
@@ -172,7 +170,7 @@ public class BAW_RESTController {
 
     }
 
-    /*
+
     @PostMapping(value = "/getInstanceDetails", produces = "application/json")
     public String getInstanceDetails(@RequestBody GetInstanceDetailsRequest request) {
 
@@ -185,5 +183,5 @@ public class BAW_RESTController {
                 .asString() .getBody();
 
     }
-*/
+
 }

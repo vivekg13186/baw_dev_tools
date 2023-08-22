@@ -2,8 +2,12 @@
   <q-page>
     <q-toolbar class="bg-primary text-white">
       <q-toolbar-title>Test Data</q-toolbar-title>
-      <q-btn flat icon="delete" @click="deleteSelectedTestData"></q-btn>
-      <q-btn flat icon="add" @click="createTestData"></q-btn>
+      <q-btn flat round dense icon="delete" @click="deleteSelectedTestData"
+        ><q-tooltip>Delete TestData</q-tooltip></q-btn
+      >
+      <q-btn flat round dense icon="add" @click="createTestData"
+        ><q-tooltip>New TestData</q-tooltip></q-btn
+      >
     </q-toolbar>
     <div class="q-pa-md q-gutter-sm">
       <q-table
@@ -16,10 +20,20 @@
       >
         <template v-slot:body-cell-actions="props">
           <q-td key="action" :props="props">
-            <q-btn flat icon="edit" @click="editTestData(props.row.id)"></q-btn>
             <q-btn
               flat
-              icon="delete"
+              size="sm"
+              no-caps
+              label="Edit"
+              color="primary"
+              @click="editTestData(props.row.id)"
+            ></q-btn>
+            <q-btn
+              flat
+              size="sm"
+              no-caps
+              label="Delete"
+              color="red"
               @click="deleteTestData(props.row.id)"
             ></q-btn> </q-td></template
       ></q-table>

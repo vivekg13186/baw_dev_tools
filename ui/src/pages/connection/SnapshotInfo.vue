@@ -7,7 +7,7 @@
 
     <div class="q-pa-lg q-gutter-md">
       <q-breadcrumbs>
-        <q-breadcrumbs-el :label="appName + '(' + appSName + ')'" />
+        <q-breadcrumbs-el :label="appName" />
         <q-breadcrumbs-el :label="snapName" />
       </q-breadcrumbs>
 

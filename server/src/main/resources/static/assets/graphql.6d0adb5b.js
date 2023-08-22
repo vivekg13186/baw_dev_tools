@@ -1,0 +1,1 @@
+import{api as p}from"./axios.898b20c0.js";function c(o,l,t){console.log(o),p.post("api/graphql",{query:o}).then(a=>{console.log(o,a.data),a.data.errors?t(a.data.errors[0].message):l(a.data)}).catch(a=>{console.error(a),t(a)})}export{c as g};
